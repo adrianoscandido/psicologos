@@ -1,5 +1,8 @@
 -- Copie e cole este código no SQL Editor do seu Supabase e clique em "Run"
 
+-- 0. Habilitar a extensão necessária para gerar IDs únicos (UUIDs)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
+
 -- 1. Criar a tabela de Pacientes
 CREATE TABLE IF NOT EXISTS public.pacientes (
     id UUID DEFAULT extensions.uuid_generate_v4() PRIMARY KEY,

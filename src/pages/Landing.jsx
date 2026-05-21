@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Calendar, Heart, Shield, Brain, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './Landing.css';
+import BookingSection from '../components/BookingSection';
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -187,6 +188,9 @@ const Landing = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Agendamento Online */}
+      <BookingSection />
 
       {/* Sobre Mim */}
       <section id="sobre" className="about-section">
