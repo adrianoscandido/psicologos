@@ -24,25 +24,25 @@ const Sidebar = () => {
       <nav className="sidebar-nav">
         <ul>
           <li>
-            <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="/painel" end className={({ isActive }) => isActive ? 'active' : ''}>
               <Home size={20} />
               <span>Início</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/agenda" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="/painel/agenda" className={({ isActive }) => isActive ? 'active' : ''}>
               <Calendar size={20} />
               <span>Agenda</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/pacientes" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="/painel/pacientes" className={({ isActive }) => isActive ? 'active' : ''}>
               <Users size={20} />
               <span>Pacientes</span>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/prontuario" className={({ isActive }) => isActive ? 'active' : ''}>
+            <NavLink to="/painel/prontuario" className={({ isActive }) => isActive ? 'active' : ''}>
               <FileText size={20} />
               <span>Novo Prontuário</span>
             </NavLink>
