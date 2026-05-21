@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+import emailjs from '@emailjs/browser';
 
 const BookingSection = () => {
   const [formData, setFormData] = useState({
@@ -48,6 +49,8 @@ const BookingSection = () => {
         pacienteId = novoPaciente.id;
       }
 
+      const dataFormatada = new Date(formData.data_hora).toLocaleString('pt-BR');
+
       // 3. Criar a consulta (Agenda)
       const { error: consError } = await supabase
         .from('consultas')
@@ -61,14 +64,29 @@ const BookingSection = () => {
 
       if (consError) throw consError;
 
-      // 4. Aqui entrará o código do EmailJS no futuro para disparar os emails!
+      // 4. Disparar email usando EmailJS
+      const templateParams = {
+        to_name: 'Dra. Ana Paula',
+        from_name: formData.nome,
+        paciente_email: formData.email,
+        paciente_telefone: formData.telefone,
+        data_agendamento: dataFormatada,
+        motivo: formData.motivo || 'Não informado'
+      };
+
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
       
       setSuccess(true);
       setFormData({ nome: '', email: '', telefone: '', data_hora: '', motivo: '' });
 
     } catch (err) {
       console.error(err);
-      setErrorMsg('Ocorreu um erro ao enviar sua solicitação. Tente novamente mais tarde.');
+      setErrorMsg('Ocorreu um erro ao enviar sua solicitação. Verifique se a chave Public Key do EmailJS foi preenchida corretamente no sistema.');
     }
     setLoading(false);
   };
