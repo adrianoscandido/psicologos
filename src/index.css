@@ -1,128 +1,202 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root {
-  /* Core Brand Colors matching the business card */
-  --primary-color: #487693; 
-  --primary-dark: #325870;
-  --primary-light: #6a96b2;
+  --primary: #3a7bd5;
+  --primary-dark: #2563c7;
+  --primary-light: #60a5fa;
+  --primary-glow: rgba(58, 123, 213, 0.25);
   
-  /* Sophisticated Accents */
-  --accent-gold: #c5a97a;
-  --accent-silver: #e0e6ed;
+  --accent: #c5a97a;
+  --accent-light: #e8d5b0;
   
-  /* Text and Backgrounds */
-  --secondary-color: #F4F7F6;
-  --text-dark: #2C3E50;
-  --text-light: #FFFFFF;
-  --text-muted: #7F8C8D;
-  --border-color: #E2E8F0;
-  --bg-color: #F8FAFC;
+  --bg: #f8fafc;
+  --bg-dark: #0f172a;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
   
-  /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --text-light: #ffffff;
+  
+  --border: #e2e8f0;
+  --border-dark: #cbd5e1;
+  
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.10);
+  --shadow-blue: 0 8px 24px rgba(58, 123, 213, 0.25);
+  
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
+  
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Legacy names for backward compat */
+  --primary-color: #3a7bd5;
+  --primary-dark: #2563c7;
+  --primary-light: #60a5fa;
+  --accent-gold: #c5a97a;
+  --secondary-color: #f8fafc;
+  --text-dark: #0f172a;
+  --bg-color: #f8fafc;
+  --border-color: #e2e8f0;
+  --text-muted: #64748b;
 }
 
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-color);
-  color: var(--text-dark);
+  background-color: var(--bg);
+  color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
   font-weight: 600;
-  color: var(--primary-dark);
+  line-height: 1.2;
+  color: var(--text);
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
-ul {
-  list-style: none;
-}
+ul { list-style: none; }
 
 button {
   cursor: pointer;
   border: none;
   background: none;
   font-family: var(--font-sans);
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
-/* Premium Buttons */
+img { max-width: 100%; }
+
+/* ===================== BUTTONS ===================== */
 .btn-primary {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
   padding: 0.85rem 2rem;
-  border-radius: 30px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(72, 118, 147, 0.3);
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  box-shadow: var(--shadow-blue);
+  transition: var(--transition);
+  border: none;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-dark);
-  box-shadow: 0 6px 20px rgba(50, 88, 112, 0.4);
   transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(58, 123, 213, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-accent {
-  background-color: var(--accent-gold);
-  color: #fff;
-  padding: 0.85rem 2rem;
-  border-radius: 30px;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #b39768 100%);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(197, 169, 122, 0.3);
+  box-shadow: 0 8px 24px rgba(197, 169, 122, 0.3);
+  transition: var(--transition);
 }
 
 .btn-accent:hover {
-  background-color: #b39768;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 169, 122, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(197, 169, 122, 0.4);
 }
 
 .btn-secondary {
-  background-color: transparent;
-  color: var(--primary-color);
-  padding: 0.75rem 1.5rem;
-  border-radius: 30px;
-  font-weight: 500;
-  border: 1px solid var(--primary-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--primary);
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 2px solid var(--primary);
+  transition: var(--transition);
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+  background: var(--primary);
+  color: white;
 }
 
-/* Card Style */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: var(--transition);
+  backdrop-filter: blur(8px);
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
+}
+
+/* ===================== CARD ===================== */
 .card {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   padding: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+  transition: var(--transition-slow);
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
 }
 
-/* Input Fields */
+/* ===================== INPUTS ===================== */
 .input-group {
   margin-bottom: 1.5rem;
 }
@@ -130,33 +204,62 @@ button {
 .input-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--primary-dark);
-  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
 }
 
 .input-group input,
 .input-group textarea,
 .input-group select {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
   font-family: var(--font-sans);
-  background-color: #fcfcfc;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--surface);
+  transition: var(--transition);
+  outline: none;
 }
 
 .input-group input:focus,
 .input-group textarea:focus,
 .input-group select:focus {
-  outline: none;
-  border-color: var(--primary-light);
-  box-shadow: 0 0 0 3px rgba(106, 150, 178, 0.15);
-  background-color: #fff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
-/* Utilities */
+.input-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ===================== UTILITIES ===================== */
 .text-center { text-align: center; }
+.mt-1 { margin-top: 1rem; }
 .mt-2 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 1rem; }
 .mb-2 { margin-bottom: 2rem; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}

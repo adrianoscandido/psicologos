@@ -1,115 +1,164 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Calendar, Clock } from 'lucide-react';
+import { Users, Calendar, Clock, TrendingUp, Plus, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import { useNavigate } from 'react-router-dom';
+
+const StatCard = ({ icon, label, value, color, loading }) => (
+  <div style={{
+    background: 'white',
+    borderRadius: 16,
+    padding: '1.75rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '1.25rem',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+    transition: 'all 0.3s',
+    cursor: 'default'
+  }}
+  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.08)'; }}
+  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'; }}
+  >
+    <div style={{
+      width: 56,
+      height: 56,
+      borderRadius: 14,
+      background: color,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      flexShrink: 0
+    }}>
+      {icon}
+    </div>
+    <div>
+      <div style={{ fontSize: '1.9rem', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-sans)', lineHeight: 1 }}>
+        {loading ? '—' : value}
+      </div>
+      <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '0.3rem', fontWeight: 500 }}>{label}</div>
+    </div>
+  </div>
+);
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({ pacientes: 0, consultasHoje: 0, consultasSemana: 0 });
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({ pacientes: 0, hoje: 0, semana: 0 });
   const [consultasHoje, setConsultasHoje] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    carregarDados();
-  }, []);
+  useEffect(() => { carregarDados(); }, []);
 
   const carregarDados = async () => {
     setLoading(true);
     try {
-      // Pega total de pacientes
-      const { count: pacientesCount } = await supabase
-        .from('pacientes')
-        .select('*', { count: 'exact', head: true });
+      const { count: pac } = await supabase.from('pacientes').select('*', { count: 'exact', head: true });
+      
+      const hoje = new Date(); hoje.setHours(0,0,0,0);
+      const amanha = new Date(hoje); amanha.setDate(amanha.getDate() + 1);
+      const semana = new Date(hoje); semana.setDate(semana.getDate() + 7);
 
-      // Pega consultas de hoje
-      const hoje = new Date();
-      hoje.setHours(0, 0, 0, 0);
-      const amanha = new Date(hoje);
-      amanha.setDate(amanha.getDate() + 1);
+      const { data: ch } = await supabase.from('consultas').select('*').gte('data_hora', hoje.toISOString()).lt('data_hora', amanha.toISOString()).order('data_hora');
+      const { count: cs } = await supabase.from('consultas').select('*', { count: 'exact', head: true }).gte('data_hora', hoje.toISOString()).lt('data_hora', semana.toISOString());
 
-      const { data: consultas } = await supabase
-        .from('consultas')
-        .select('*')
-        .gte('data_hora', hoje.toISOString())
-        .lt('data_hora', amanha.toISOString())
-        .order('data_hora', { ascending: true });
-
-      setStats({
-        pacientes: pacientesCount || 0,
-        consultasHoje: consultas?.length || 0,
-        consultasSemana: (consultas?.length || 0) + 4 // Mock parcial para a semana
-      });
-      setConsultasHoje(consultas || []);
-    } catch (error) {
-      console.error('Erro ao carregar dashboard', error);
-    }
+      setStats({ pacientes: pac || 0, hoje: ch?.length || 0, semana: cs || 0 });
+      setConsultasHoje(ch || []);
+    } catch (e) { console.error(e); }
     setLoading(false);
   };
 
+  const hora = (iso) => new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
   return (
-    <div className="dashboard" style={{ animation: 'fadeIn 0.5s ease' }}>
-      <h1 style={{ marginBottom: '2rem', color: 'var(--primary-dark)', fontSize: '2rem' }}>Bom dia, Dra. Ana Paula</h1>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
-        {/* Cards modernizados (Glassmorphism) */}
-        <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', border: '1px solid rgba(0,0,0,0.05)' }}>
-          <div style={{ background: 'linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%)', padding: '1.2rem', borderRadius: '16px', color: 'white', boxShadow: '0 8px 16px rgba(72,118,147,0.2)' }}>
-            <Users size={28} />
-          </div>
-          <div>
-            <h3 style={{ fontSize: '1.8rem', margin: 0, color: 'var(--primary-dark)' }}>{loading ? '-' : stats.pacientes}</h3>
-            <p style={{ color: 'var(--text-muted)', margin: 0, fontWeight: '500' }}>Pacientes Ativos</p>
-          </div>
+    <div style={{ animation: 'fadeIn 0.5s ease' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
+        <div>
+          <h1 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-serif)', color: '#0f172a', marginBottom: '0.25rem' }}>
+            Bom dia, Dra. Ana Paula ☀️
+          </h1>
+          <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
+            {new Date().toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
         </div>
-
-        <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', border: '1px solid rgba(0,0,0,0.05)' }}>
-          <div style={{ background: 'linear-gradient(135deg, var(--accent-gold) 0%, #b39768 100%)', padding: '1.2rem', borderRadius: '16px', color: 'white', boxShadow: '0 8px 16px rgba(197,169,122,0.2)' }}>
-            <Calendar size={28} />
-          </div>
-          <div>
-            <h3 style={{ fontSize: '1.8rem', margin: 0, color: 'var(--primary-dark)' }}>{loading ? '-' : stats.consultasHoje}</h3>
-            <p style={{ color: 'var(--text-muted)', margin: 0, fontWeight: '500' }}>Consultas Hoje</p>
-          </div>
-        </div>
-
-        <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)', border: '1px solid rgba(0,0,0,0.05)' }}>
-          <div style={{ background: 'linear-gradient(135deg, #7A9FCA 0%, #5b8ab8 100%)', padding: '1.2rem', borderRadius: '16px', color: 'white', boxShadow: '0 8px 16px rgba(122,159,202,0.2)' }}>
-            <Clock size={28} />
-          </div>
-          <div>
-            <h3 style={{ fontSize: '1.8rem', margin: 0, color: 'var(--primary-dark)' }}>{loading ? '-' : stats.consultasSemana}</h3>
-            <p style={{ color: 'var(--text-muted)', margin: 0, fontWeight: '500' }}>Consultas na Semana</p>
-          </div>
-        </div>
+        <button className="btn-primary" onClick={() => navigate('/painel/pacientes')} style={{ gap: '0.5rem' }}>
+          <Plus size={18} /> Novo Paciente
+        </button>
       </div>
 
-      <div className="card" style={{ border: '1px solid rgba(0,0,0,0.05)' }}>
-        <h2 style={{ marginBottom: '1.5rem', fontSize: '1.3rem', color: 'var(--primary-dark)' }}>Próximas Consultas Hoje</h2>
-        {loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>Carregando agenda...</p>
-        ) : consultasHoje.length === 0 ? (
-          <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)', background: '#f8f9fa', borderRadius: '12px' }}>
-            Nenhuma consulta agendada para hoje.
+      {/* Stats */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+        <StatCard loading={loading} icon={<Users size={24} />} label="Pacientes Cadastrados" value={stats.pacientes} color="linear-gradient(135deg, #3a7bd5 0%, #2563c7 100%)" />
+        <StatCard loading={loading} icon={<Calendar size={24} />} label="Consultas Hoje" value={stats.hoje} color="linear-gradient(135deg, #c5a97a 0%, #b39768 100%)" />
+        <StatCard loading={loading} icon={<Clock size={24} />} label="Consultas esta Semana" value={stats.semana} color="linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)" />
+        <StatCard loading={loading} icon={<TrendingUp size={24} />} label="Aproveitamento" value="100%" color="linear-gradient(135deg, #059669 0%, #047857 100%)" />
+      </div>
+
+      {/* Today's appointments */}
+      <div style={{ background: 'white', borderRadius: 20, border: '1px solid #e2e8f0', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', overflow: 'hidden' }}>
+        <div style={{ padding: '1.5rem 2rem', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f172a', fontFamily: 'var(--font-sans)' }}>Agenda de Hoje</h2>
+            <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '0.15rem' }}>{stats.hoje} consulta{stats.hoje !== 1 ? 's' : ''} agendada{stats.hoje !== 1 ? 's' : ''}</p>
           </div>
-        ) : (
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {consultasHoje.map((consulta) => {
-              const dataObj = new Date(consulta.data_hora);
-              const hora = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-              return (
-                <li key={consulta.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.2rem', border: '1px solid var(--border-color)', borderRadius: '12px', background: '#fff', transition: 'all 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.borderColor='var(--primary-light)'} onMouseLeave={(e) => e.currentTarget.style.borderColor='var(--border-color)'}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                    <div style={{ background: 'rgba(75, 120, 165, 0.1)', color: 'var(--primary-color)', padding: '0.5rem 1rem', borderRadius: '8px', fontWeight: 'bold', fontSize: '1.1rem' }}>
-                      {hora}
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: '600', color: 'var(--text-dark)', fontSize: '1.05rem' }}>{consulta.paciente_nome}</div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>{consulta.tipo} • {consulta.status}</div>
-                    </div>
+          <button onClick={() => navigate('/painel/agenda')} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#3a7bd5', fontSize: '0.88rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+            Ver Agenda <ArrowRight size={16} />
+          </button>
+        </div>
+
+        <div style={{ padding: '1rem 2rem' }}>
+          {loading ? (
+            <p style={{ color: '#94a3b8', textAlign: 'center', padding: '2rem 0' }}>Carregando...</p>
+          ) : consultasHoje.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '3rem 0' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📅</div>
+              <p style={{ color: '#64748b', fontWeight: 500, marginBottom: '0.5rem' }}>Nenhuma consulta hoje</p>
+              <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Aproveite para organizar prontuários ou agendar novas sessões</p>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
+              {consultasHoje.map(c => (
+                <div key={c.id} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  padding: '1rem 1.25rem',
+                  borderRadius: 12,
+                  border: '1px solid #f1f5f9',
+                  background: '#fafbfc',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = '#bfdbfe'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = '#f1f5f9'}
+                >
+                  <div style={{
+                    background: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)',
+                    color: '#3a7bd5',
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: 8,
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    flexShrink: 0
+                  }}>{hora(c.data_hora)}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.95rem' }}>{c.paciente_nome}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '0.2rem' }}>{c.tipo}</div>
                   </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+                  <span style={{
+                    padding: '0.3rem 0.85rem',
+                    borderRadius: 50,
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    background: c.status === 'Agendado' ? '#f0fdf4' : '#fffbeb',
+                    color: c.status === 'Agendado' ? '#16a34a' : '#d97706'
+                  }}>
+                    {c.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
