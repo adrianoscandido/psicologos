@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Calendar, Heart, Shield, Brain, Star, CheckCircle } from 'lucide-react';
+import { ArrowRight, Calendar, Heart, Shield, Brain, Star, Phone, MapPin, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './Landing.css';
 import BookingSection from '../components/BookingSection';
@@ -31,6 +31,9 @@ const Landing = () => {
           <a href="#sobre">Sobre Mim</a>
           <a href="#avaliacoes">Avaliações</a>
           <a href="#agendar">Agendar</a>
+          <a href="https://wa.me/5511974342572" target="_blank" rel="noopener noreferrer" className="btn-login-link" style={{ background: 'rgba(37,211,102,0.15)', borderColor: 'rgba(37,211,102,0.5)', color: 'white' }}>
+            WhatsApp
+          </a>
           <button className="btn-login-link" onClick={() => navigate('/login')}>
             Área Profissional
           </button>
@@ -90,7 +93,7 @@ const Landing = () => {
 
             <motion.div variants={fadeInUp} className="hero-stats">
               {[
-                { number: '5★', label: 'Avaliação Google' },
+                { number: '5,0★', label: '41 avaliações Google' },
                 { number: '100%', label: 'Confidencial' },
                 { number: 'Online', label: 'e Presencial' }
               ].map((s, i) => (
@@ -165,9 +168,9 @@ const Landing = () => {
 
           <motion.div className="reviews-grid" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger}>
             {[
-              { name: 'Paciente', text: 'Profissional excelente, muito atenciosa e pontual. O consultório é super acolhedor. Tem me ajudado muito no meu processo de autoconhecimento.' },
-              { name: 'Paciente', text: 'A Dra. Ana Paula transmite uma paz incrível. Desde a primeira sessão me senti muito confortável para falar sobre minhas questões. Recomendo de olhos fechados!' },
-              { name: 'Paciente', text: 'Excelente psicóloga. A abordagem dela é muito empática. Consegui superar minhas crises de ansiedade com o acompanhamento que venho fazendo.' }
+              { name: 'Paciente Anônimo', text: 'Profissional excelente, muito atenciosa e pontual. O consultório é super acolhedor. Tem me ajudado muito no meu processo de autoconhecimento.' },
+              { name: 'Paciente Anônimo', text: 'A Dra. Ana Paula transmite uma paz incrível. Desde a primeira sessão me senti muito confortável para falar sobre minhas questões. Recomendo de olhos fechados!' },
+              { name: 'Paciente Anônimo', text: 'Excelente psicóloga. A abordagem dela é muito empática. Consegui superar minhas crises de ansiedade com o acompanhamento que venho fazendo.' }
             ].map((r, i) => (
               <motion.div key={i} className="review-card" variants={fadeInUp}>
                 <div className="review-stars">
@@ -179,7 +182,10 @@ const Landing = () => {
             ))}
           </motion.div>
 
-          <motion.div style={{ textAlign: 'center', marginTop: '3.5rem' }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+          <motion.div style={{ textAlign: 'center', marginTop: '1rem', color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
+            <strong style={{ color: '#fbbc05', fontSize: '1.5rem' }}>5,0</strong> — 41 avaliações verificadas no Google
+          </motion.div>
+          <motion.div style={{ textAlign: 'center', marginTop: '1.5rem' }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp}>
             <a href="https://g.page/r/CVqcwn8_q56qEAI/review" target="_blank" rel="noopener noreferrer" className="btn-ghost">
               Deixe sua avaliação no Google ★
             </a>
@@ -222,24 +228,59 @@ const Landing = () => {
             <span className="footer-psi">Ψ</span>
             <h3>Ana Paula Candido</h3>
             <p>Psicóloga Clínica • CRP 06/157985</p>
-            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.7 }}>
-              Cuidando da saúde mental com ética, empatia e profissionalismo.
+            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', lineHeight: 1.8 }}>
+              Cuidando da saúde mental com ética, empatia e profissionalismo em Sorocaba, SP.
             </p>
+            <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+              <a href="https://wa.me/5511974342572" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 10, background: 'rgba(37,211,102,0.15)', border: '1px solid rgba(37,211,102,0.3)', color: '#25d366', fontSize: '1.1rem', transition: 'all 0.2s' }}>
+                📱
+              </a>
+              <a href="https://www.google.com/maps/place/Ana+Paula+Candido+%7C+Psic%C3%B3loga+Cl%C3%ADnica/@-23.4192944,-47.4147294,17z" target="_blank" rel="noopener noreferrer"
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: 10, background: 'rgba(58,123,213,0.15)', border: '1px solid rgba(58,123,213,0.3)', color: '#60a5fa', fontSize: '1.1rem', transition: 'all 0.2s' }}>
+                📍
+              </a>
+            </div>
           </div>
           <div className="footer-contact">
             <h4>Contato</h4>
-            <p>WhatsApp: (11) 90000-0000</p>
-            <p>Email: contato@psicoanapaulacandido.com.br</p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Phone size={14} style={{ color: '#25d366', flexShrink: 0 }} />
+              <a href="https://wa.me/5511974342572" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}>
+                (11) 97434-2572
+              </a>
+            </p>
+            <p style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#60a5fa', fontSize: '0.85rem', flexShrink: 0 }}>✉</span>
+              <a href="mailto:contato@psicoanapaulacandido.com.br" style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontSize: '0.85rem' }}>
+                contato@psicoanapaulacandido.com.br
+              </a>
+            </p>
+            <p style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <Clock size={14} style={{ color: '#c5a97a', flexShrink: 0, marginTop: '0.2rem' }} />
+              <span style={{ fontSize: '0.85rem', lineHeight: 1.6 }}>Sex. às 08:00 — Seg. a Qui. consulte horários</span>
+            </p>
           </div>
           <div className="footer-address">
             <h4>Consultório</h4>
-            <p>Atendimento Presencial</p>
-            <p>e Online (Nationwide)</p>
-            <p style={{ marginTop: '0.5rem' }}>São Paulo, SP</p>
+            <p style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+              <MapPin size={14} style={{ color: '#c5a97a', flexShrink: 0, marginTop: '0.2rem' }} />
+              <a href="https://www.google.com/maps/place/Ana+Paula+Candido+%7C+Psic%C3%B3loga+Cl%C3%ADnica/@-23.4192944,-47.4147294,17z" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.65)', textDecoration: 'none', fontSize: '0.88rem', lineHeight: 1.6 }}>
+                R. José de Oliveira Cassú, 615<br />Éden, Sorocaba - SP<br />CEP 18103-065
+              </a>
+            </p>
+            <p style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Star size={13} fill="#fbbc05" color="#fbbc05" />
+              <Star size={13} fill="#fbbc05" color="#fbbc05" />
+              <Star size={13} fill="#fbbc05" color="#fbbc05" />
+              <Star size={13} fill="#fbbc05" color="#fbbc05" />
+              <Star size={13} fill="#fbbc05" color="#fbbc05" />
+              <span style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)' }}>5,0 · 41 avaliações</span>
+            </p>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} Psicóloga Ana Paula Candido dos Santos. Todos os direitos reservados.</p>
+          <p>© {new Date().getFullYear()} Psicóloga Ana Paula Candido dos Santos. Todos os direitos reservados. • Sorocaba, SP</p>
         </div>
       </footer>
     </div>
