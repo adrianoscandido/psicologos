@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Calendar, Users, FileText, LogOut } from 'lucide-react';
+import { LayoutDashboard, Calendar, Users, FileText, LogOut, Settings } from 'lucide-react';
 import './Layout.css';
 import { supabase } from '../../lib/supabaseClient';
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: '/painel/agenda', icon: <Calendar size={20} />, label: 'Agenda' },
   { to: '/painel/pacientes', icon: <Users size={20} />, label: 'Pacientes' },
   { to: '/painel/prontuario', icon: <FileText size={20} />, label: 'Prontuário' },
+  { to: '/painel/disponibilidade', icon: <Settings size={20} />, label: 'Disponibilidade' },
 ];
 
 const Sidebar = () => {

@@ -5,28 +5,29 @@ import Dashboard from './pages/Dashboard';
 import Agenda from './pages/Agenda';
 import Pacientes from './pages/Pacientes';
 import Prontuario from './pages/Prontuario';
+import Disponibilidade from './pages/Disponibilidade';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
 
 function App() {
-  const isAuthenticated = true; // Simulação
+  const isAuthenticated = true; // Simplificado — Supabase cuida da sessão
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Routes */}
+        {/* Public */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        
-        {/* Protected Routes (Sistema) */}
+
+        {/* Protected */}
         <Route path="/painel" element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
           <Route index element={<Dashboard />} />
           <Route path="agenda" element={<Agenda />} />
           <Route path="pacientes" element={<Pacientes />} />
           <Route path="prontuario" element={<Prontuario />} />
+          <Route path="disponibilidade" element={<Disponibilidade />} />
         </Route>
-        
-        {/* Redirect unknown routes */}
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
