@@ -6,6 +6,7 @@ import Agenda from './pages/Agenda';
 import Pacientes from './pages/Pacientes';
 import Prontuario from './pages/Prontuario';
 import Disponibilidade from './pages/Disponibilidade';
+import Usuarios from './pages/Usuarios';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="pacientes" element={<Pacientes />} />
           <Route path="prontuario" element={<Prontuario />} />
           <Route path="disponibilidade" element={<Disponibilidade />} />
+          <Route path="usuarios" element={<Usuarios />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
