@@ -57,6 +57,10 @@ const Landing = () => {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         ></motion.div>
 
+        {/* CSS Animated Waves matching ReactBits style */}
+        <div className="wave-animation"></div>
+        <div className="wave-animation wave-animation-2"></div>
+
         <div className="hero-overlay"></div>
         
         <div className="hero-content">

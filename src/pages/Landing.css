@@ -116,6 +116,53 @@
   pointer-events: none;
 }
 
+/* CSS Animated Waves */
+.hero-waves-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 1;
+}
+
+.hero-waves-container svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 150px;
+}
+
+.hero-waves-container .shape-fill {
+  fill: var(--bg-color); /* The background color of the next section to blend seamlessly */
+}
+
+/* Add an animated wave overlay to simulate ReactBits waves */
+.wave-animation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 800 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,400 C200,600 400,200 800,400 L800,800 L0,800 Z" fill="rgba(255,255,255,0.05)"/></svg>') repeat-x;
+  background-size: 50% 100%;
+  animation: wave 10s linear infinite;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.wave-animation-2 {
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 800 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,500 C200,300 400,700 800,500 L800,800 L0,800 Z" fill="rgba(255,255,255,0.08)"/></svg>') repeat-x;
+  background-size: 50% 100%;
+  animation: wave 15s linear infinite reverse;
+}
+
+@keyframes wave {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .hero-overlay {
   position: absolute;
   top: 0;

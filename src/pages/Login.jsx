@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { supabase } from '../lib/supabaseClient';
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     
-    // Hardcoded credentials temporarily
-    if (email === 'adrianoscandido93@gmail.com' && password === '123') {
-      setError('');
-      navigate('/painel');
+    // Tenta fazer o login real no Supabase
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (authError) {
+      // Fallback de emergência caso o usuário ainda não tenha sido criado no painel do Supabase
+      if (email === 'adrianoscandido93@gmail.com' && password === '123') {
+        navigate('/painel');
+      } else {
+        setError('Login falhou: ' + authError.message + '. (Se for o seu primeiro acesso, verifique se criou o usuário no painel Auth do Supabase)');
+      }
     } else {
-      setError('Credenciais inválidas. Tente novamente.');
+      // Login com sucesso no Supabase
+      navigate('/painel');
     }
+    setLoading(false);
   };
 
   return (
