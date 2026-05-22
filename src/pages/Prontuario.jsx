@@ -81,7 +81,10 @@ const Prontuario = () => {
       paciente_nome: pacSelecionado.nome,
       conteudo: JSON.stringify(formSessao)
     }]);
-    if (!error) {
+    if (error) {
+      console.error("Erro do supabase:", error);
+      alert('Erro ao salvar: ' + error.message + '\n\nSe for erro de permissão (RLS), o script fix_rls.sql precisa ser executado no Supabase.');
+    } else {
       setModalNovaSessao(false);
       setFormSessao({ data_sessao: new Date().toISOString().slice(0, 10), queixa: '', evolucao: '', tecnicas: '', encaminhamentos: '', plano_proxima: '' });
       carregarSessoes(pacSelecionado.id);
