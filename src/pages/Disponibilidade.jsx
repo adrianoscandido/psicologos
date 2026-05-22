@@ -32,6 +32,11 @@ const Disponibilidade = () => {
       intervalo_minutos: 50,
       ativo: true
     }]).select().single();
+    
+    if (error) {
+      console.error(error);
+      alert('Erro ao adicionar: ' + error.message + '\n\nPode ser bloqueio RLS na tabela disponibilidades.');
+    }
     if (data) setSlots(prev => [...prev, data]);
   };
 
@@ -47,17 +52,28 @@ const Disponibilidade = () => {
   const saveAll = async () => {
     setSaving(true);
     setMsg('');
+    let hasError = false;
     for (const slot of slots) {
-      await supabase.from('disponibilidades').update({
+      const { error } = await supabase.from('disponibilidades').update({
         dia_semana: parseInt(slot.dia_semana),
         hora_inicio: slot.hora_inicio,
         hora_fim: slot.hora_fim,
         intervalo_minutos: parseInt(slot.intervalo_minutos),
         ativo: slot.ativo
       }).eq('id', slot.id);
+      
+      if (error) {
+        hasError = true;
+        console.error(error);
+        alert('Erro ao salvar: ' + error.message);
+        break;
+      }
     }
     setSaving(false);
-    setMsg('✓ Horários salvos com sucesso!');
+    if (!hasError) {
+      setMsg('✓ Horários salvos com sucesso!');
+      setTimeout(() => setMsg(''), 3000);
+    }
     setTimeout(() => setMsg(''), 3000);
   };
 
