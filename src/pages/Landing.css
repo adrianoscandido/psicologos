@@ -11,6 +11,10 @@
   padding: 0 2rem;
 }
 
+.mobile-menu-btn {
+  display: none;
+}
+
 /* ===================== NAVBAR ===================== */
 .landing-nav {
   position: fixed;
@@ -737,8 +741,30 @@
     padding: 1rem 1.5rem;
   }
   
+  .mobile-menu-btn {
+    display: block;
+    z-index: 101;
+  }
+  
   .nav-links {
-    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6rem 2rem 2rem;
+    gap: 2rem;
+    transition: right 0.3s ease;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+  }
+
+  .nav-links.open {
+    right: 0;
   }
   
   .hero-title {

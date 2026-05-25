@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Calendar, Heart, Shield, Brain, Star, Phone, MapPin, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, Calendar, Heart, Shield, Brain, Star, Phone, MapPin, Clock, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Landing.css';
 import BookingSection from '../components/BookingSection';
 
@@ -17,6 +17,7 @@ const stagger = {
 
 const Landing = () => {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="landing-page">
@@ -26,11 +27,11 @@ const Landing = () => {
           <span className="psi-symbol-nav">Ψ</span>
           <span className="nav-name">Ana Paula Candido</span>
         </div>
-        <div className="nav-links">
-          <a href="#especialidades">Especialidades</a>
-          <a href="#sobre">Sobre Mim</a>
-          <a href="#avaliacoes">Avaliações</a>
-          <a href="#agendar">Agendar</a>
+        <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+          <a href="#especialidades" onClick={() => setMenuOpen(false)}>Especialidades</a>
+          <a href="#sobre" onClick={() => setMenuOpen(false)}>Sobre Mim</a>
+          <a href="#avaliacoes" onClick={() => setMenuOpen(false)}>Avaliações</a>
+          <a href="#agendar" onClick={() => setMenuOpen(false)}>Agendar</a>
           <a href="https://wa.me/5511974342572" target="_blank" rel="noopener noreferrer" className="btn-login-link" style={{ background: 'rgba(37,211,102,0.15)', borderColor: 'rgba(37,211,102,0.5)', color: 'white' }}>
             WhatsApp
           </a>
@@ -38,6 +39,9 @@ const Landing = () => {
             Área Profissional
           </button>
         </div>
+        <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={28} color="white" /> : <Menu size={28} color="white" />}
+        </button>
       </nav>
 
       {/* Hero */}
