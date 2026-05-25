@@ -152,7 +152,8 @@ const BookingSection = () => {
       setStep(3);
     } catch (err) {
       console.error(err);
-      setErrorMsg('Erro ao enviar. Tente novamente.');
+      const msg = err.message || err.text || JSON.stringify(err);
+      setErrorMsg(`Erro ao enviar: ${msg}`);
     }
     setLoading(false);
   };
@@ -193,9 +194,9 @@ const BookingSection = () => {
         {/* Step 1 — Calendário e Horários */}
         {step === 1 && (
           <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: 420 }}>
+            <div className="booking-grid">
               {/* Calendário */}
-              <div style={{ padding: '2rem', borderRight: '1px solid #f1f5f9' }}>
+              <div className="booking-calendar-col">
                 {/* Navegação mês */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                   <button onClick={() => setMesAtual(new Date(mesAtual.getFullYear(), mesAtual.getMonth() - 1, 1))} style={{ padding: '0.4rem', borderRadius: 8, color: '#64748b', background: '#f1f5f9', border: 'none', cursor: 'pointer', display: 'flex' }}>
@@ -254,7 +255,7 @@ const BookingSection = () => {
               </div>
 
               {/* Horários */}
-              <div style={{ padding: '2rem' }}>
+              <div className="booking-slots-col">
                 {!dataSelecionada ? (
                   <div style={{ textAlign: 'center', padding: '3rem 1rem' }}>
                     <Calendar size={40} style={{ color: '#e2e8f0', margin: '0 auto 1rem', display: 'block' }} />
@@ -274,7 +275,7 @@ const BookingSection = () => {
                     <p style={{ fontSize: '0.82rem', color: '#94a3b8', marginBottom: '1.25rem' }}>
                       {slots.filter(s => !s.ocupado).length} horário(s) disponível(is)
                     </p>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.6rem', maxHeight: 280, overflowY: 'auto' }}>
+                    <div className="booking-slots-grid">
                       {slots.map(slot => (
                         <button key={slot.hora} disabled={slot.ocupado} onClick={() => setHoraSelecionada(slot.hora)}
                           style={{
@@ -317,12 +318,12 @@ const BookingSection = () => {
                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Data</div>
                 <div style={{ fontWeight: 700, color: '#0f172a' }}>{dataSelecionada?.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
               </div>
-              <div style={{ width: 1, background: '#bae6fd' }} />
+              <div style={{ width: 1, background: '#bae6fd' }} className="booking-step2-divider" />
               <div>
                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Horário</div>
                 <div style={{ fontWeight: 700, color: '#0f172a' }}>{horaSelecionada}</div>
               </div>
-              <button onClick={() => setStep(1)} style={{ marginLeft: 'auto', color: '#3a7bd5', fontSize: '0.85rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button onClick={() => setStep(1)} className="booking-step2-change-btn">
                 ← Alterar
               </button>
             </div>
@@ -334,7 +335,7 @@ const BookingSection = () => {
                 <label>Nome Completo</label>
                 <input required type="text" value={form.nome} onChange={e => setForm({...form, nome: e.target.value})} placeholder="Seu nome completo" />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+              <div className="booking-form-grid">
                 <div className="input-group" style={{ marginBottom: 0 }}>
                   <label>E-mail</label>
                   <input required type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} placeholder="seu@email.com" />

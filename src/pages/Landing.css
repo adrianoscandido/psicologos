@@ -758,3 +758,65 @@
     gap: 2.5rem;
   }
 }
+
+/* ===================== BOOKING RESPONSIVE ===================== */
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 420px;
+}
+.booking-calendar-col {
+  padding: 2rem;
+  border-right: 1px solid #f1f5f9;
+}
+.booking-slots-col {
+  padding: 2rem;
+}
+.booking-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.booking-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.booking-step2-divider {
+  width: 1px;
+  background: #bae6fd;
+}
+.booking-step2-change-btn {
+  margin-left: auto;
+  color: #3a7bd5;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking-calendar-col {
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1.5rem;
+  }
+  .booking-slots-col {
+    padding: 1.5rem;
+  }
+  .booking-slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .booking-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .booking-step2-divider {
+    display: none;
+  }
+}
