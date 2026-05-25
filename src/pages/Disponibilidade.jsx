@@ -79,7 +79,7 @@ const Disponibilidade = () => {
 
   return (
     <div style={{ animation: 'fadeIn 0.5s ease' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
+      <div className="dash-header-flex" style={{ marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-serif)', color: '#0f172a', marginBottom: '0.25rem' }}>
             Disponibilidade
@@ -112,14 +112,11 @@ const Disponibilidade = () => {
           )}
 
           {slots.map(slot => (
-            <div key={slot.id} style={{
+            <div key={slot.id} className="dash-flex-row" style={{
               background: 'white',
               borderRadius: 14,
               border: `1px solid ${slot.ativo ? '#bfdbfe' : '#e2e8f0'}`,
               padding: '1.5rem 2rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '2rem',
               boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
               opacity: slot.ativo ? 1 : 0.6
             }}>

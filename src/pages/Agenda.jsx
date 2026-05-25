@@ -71,7 +71,7 @@ const Agenda = () => {
 
   return (
     <div style={{ animation: 'fadeIn 0.5s ease' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
+      <div className="dash-header-flex" style={{ marginBottom: '2.5rem' }}>
         <h1 style={{ color: 'var(--primary-dark)', fontSize: '2rem' }}>Agenda</h1>
         <button className="btn-primary" onClick={() => setShowModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%)', boxShadow: '0 8px 16px rgba(72,118,147,0.2)' }}>
           <Plus size={20} />

@@ -239,7 +239,7 @@ const Usuarios = () => {
       )}
 
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2.5rem' }}>
+      <div className="dash-header-flex" style={{ marginBottom: '2.5rem' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', fontFamily: 'var(--font-serif)', color: '#0f172a', marginBottom: '0.25rem' }}>
             Usuários do Sistema
@@ -259,7 +259,7 @@ const Usuarios = () => {
       </div>
 
       {/* Cards de resumo */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
+      <div className="dash-grid-3" style={{ marginBottom: '2rem' }}>
         {[
           { label: 'Total de Usuários', value: usuarios.length, icon: <User size={22} />, color: 'linear-gradient(135deg, #3a7bd5, #2563c7)' },
           { label: 'Usuários Ativos', value: usuarios.filter(u => u.ativo).length, icon: <CheckCircle size={22} />, color: 'linear-gradient(135deg, #059669, #047857)' },
@@ -275,8 +275,8 @@ const Usuarios = () => {
         ))}
       </div>
 
-      {/* Busca */}
-      <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+      {/* Busca e Tabela */}
+      <div className="table-container">
         <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid #f1f5f9', display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <div style={{ position: 'relative', flex: 1, maxWidth: 350 }}>
             <Search size={15} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
