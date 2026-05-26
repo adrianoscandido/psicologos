@@ -7,6 +7,9 @@ import Pacientes from './pages/Pacientes';
 import Prontuario from './pages/Prontuario';
 import Disponibilidade from './pages/Disponibilidade';
 import Usuarios from './pages/Usuarios';
+import CategoriaPerguntas from './pages/CategoriaPerguntas';
+import Anamneses from './pages/Anamneses';
+import AnamnesePublica from './pages/AnamnesePublica';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
 
@@ -19,6 +22,7 @@ function App() {
         {/* Public */}
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/anamnese/:token" element={<AnamnesePublica />} />
 
         {/* Protected */}
         <Route path="/painel" element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
@@ -28,6 +32,8 @@ function App() {
           <Route path="prontuario" element={<Prontuario />} />
           <Route path="disponibilidade" element={<Disponibilidade />} />
           <Route path="usuarios" element={<Usuarios />} />
+          <Route path="anamnese" element={<CategoriaPerguntas />} />
+          <Route path="anamneses" element={<Anamneses />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

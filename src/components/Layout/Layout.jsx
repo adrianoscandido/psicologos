@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Calendar, Users, FileText, LogOut, Settings, UserCog, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Calendar, Users, FileText, LogOut, Settings, UserCog, Menu, X, ClipboardList, Tag } from 'lucide-react';
 import './Layout.css';
 import { supabase } from '../../lib/supabaseClient';
 
@@ -9,7 +9,9 @@ const navItems = [
   { to: '/painel/agenda', icon: <Calendar size={20} />, label: 'Agenda' },
   { to: '/painel/pacientes', icon: <Users size={20} />, label: 'Pacientes' },
   { to: '/painel/prontuario', icon: <FileText size={20} />, label: 'Prontuário' },
+  { to: '/painel/anamneses', icon: <ClipboardList size={20} />, label: 'Anamneses' },
   { to: '/painel/disponibilidade', icon: <Settings size={20} />, label: 'Disponibilidade' },
+  { to: '/painel/anamnese', icon: <Tag size={20} />, label: 'Config. Anamnese' },
   { to: '/painel/usuarios', icon: <UserCog size={20} />, label: 'Usuários' },
 ];
 
